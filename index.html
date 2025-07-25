@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextTopper - Live Classes</title>
+    <link rel="icon" href="https://decicqog4ulhy.cloudfront.net/0/admin_v1/application_management/clientlogo/4415521540_Group%2018441%20%282%29.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6c63ff;
+            --primary-dark: #4d44db;
+            --primary-light: #e0deff;
+            --accent: #ff6584;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --danger: #f56565;
+            --dark: #1a202c;
+            --gray-dark: #2d3748;
+            --gray: #718096;
+            --gray-light: #e2e8f0;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #ff7eb3 100%);
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
+            
+            --border-radius: 12px;
+            --border-radius-lg: 20px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--white);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(5px);
+        }
+        
+        .logo {
+            height: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-items {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .dropdown-btn {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .dropdown-btn:hover {
+            color: var(--primary);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid var(--primary-light);
+            transition: all 0.3s ease;
+        }
+        
+        .avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: -300px;
+            width: 300px;
+            height: calc(100vh - 70px);
+            background: var(--white);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+        
+        .sidebar.active {
+            left: 0;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .sidebar-nav {
+            padding: 15px 0;
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-link i {
+            width: 24px;
+            text-align: center;
+            margin-right: 15px;
+            color: var(--gray);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: rgba(108, 99, 255, 0.1);
+            color: var(--primary);
+        }
+        
+        .sidebar-link:hover i, .sidebar-link.active i {
+            color: var(--primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 70px;
+            margin-left: 0;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .main-content.expanded {
+            margin-left: 300px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        /* Menu Toggle Button */
+        .sidebar-toggle {
+            background: var(--gradient-primary);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        .sidebar-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--gray-light);
+            margin-bottom: 30px;
+            gap: 5px;
+        }
+        
+        .tab-btn {
+            padding: 12px 25px;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-weight: 500;
+            color: var(--gray);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        
+        .tab-btn:hover {
+            background: rgba(108, 99, 255, 0.05);
+            color: var(--primary);
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            background: rgba(108, 99, 255, 0.1);
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        /* Sections */
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-right: 15px;
+        }
+        
+        .section-time {
+            font-size: 14px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-time i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+        
+        /* Course Cards */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .course-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .live-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--danger);
+            color: var(--white);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .live-badge::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background: var(--white);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .going-live-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--warning);
+            color: var(--white);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .going-live-badge::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background: var(--white);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        .course-thumbnail {
+            height: 180px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .course-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .course-card:hover .course-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        .course-body {
+            padding: 20px;
+        }
+        
+        .course-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .course-batch {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .course-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .meta-item i {
+            margin-right: 10px;
+            color: var(--primary);
+            width: 16px;
+            text-align: center;
+        }
+        
+        .meta-value {
+            color: var(--dark);
+            font-weight: 500;
+            margin-left: 5px;
+        }
+        
+        .course-divider {
+            border: none;
+            border-top: 1px dashed var(--gray-light);
+            margin: 15px 0;
+        }
+        
+        .course-action {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--gradient-primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .course-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        .watch-later-btn {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+        
+        .watch-later-btn:hover {
+            background: var(--gray);
+            color: var(--white);
+        }
+        
+        /* Developer Profile */
+        .dev-profile {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .dev-profile:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .dev-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid var(--white);
+            object-fit: cover;
+        }
+        
+        .dev-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dev-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .dev-role {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        /* Telegram Popup */
+        .telegram-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: var(--white);
+            color: var(--dark);
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-xl);
+            z-index: 1001;
+            max-width: 500px;
+            width: 90%;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: none;
+        }
+        
+        .telegram-popup.show {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        .popup-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .telegram-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+        }
+        
+        .popup-title {
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .popup-content {
+            font-size: 16px;
+            margin-bottom: 25px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        .popup-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .popup-close:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+        
+        .popup-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-primary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
+        }
+        
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .overlay.show {
+            display: block;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: var(--gray-light);
+            margin-bottom: 20px;
+        }
+        
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        .empty-text {
+            color: var(--gray);
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .main-content.expanded {
+                margin-left: 0;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .nav-items {
+                gap: 20px;
+            }
+            
+            .user-name {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            .dev-profile {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0 15px;
+            }
+            
+            .nav-items {
+                gap: 15px;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+            
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+                white-space: nowrap;
+            }
+            
+            .dev-profile {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 15px;
+            }
+            
+            .telegram-popup {
+                padding: 20px;
+            }
+            
+            .telegram-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            
+            .popup-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <img src="https://decicqog4ulhy.cloudfront.net/0/admin_v1/application_management/clientlogo/4370222540_7521371540_next_topper_logo%20%281%29.png" alt="NextTopper" class="logo">
+        
+        <div class="nav-items">
+            <a href="#" class="nav-link">Blogs</a>
+            <button class="dropdown-btn nav-link">
+                Our Products <i class="fas fa-chevron-down"></i>
+            </button>
+            
+            <div class="user-profile">
+                <span class="user-name">Hi Murli Kumar</span>
+                <img src="https://d3cx6qbbd4cbso.cloudfront.net/540/application/profile/18479419/18479419_1750990429028_image.jpg" alt="User" class="avatar">
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">STUDY MATERIAL</div>
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-book-open"></i> Our Courses
+            </a>
+            <a href="#" class="sidebar-link active">
+                <i class="fas fa-video"></i> Live Classes
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-clipboard-list"></i> Live Test
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-blog"></i> Blogs
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-bell"></i> Notification
+            </a>
+        </nav>
+        
+        <div class="sidebar-header">MY STUFF</div>
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-graduation-cap"></i> My Courses
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-receipt"></i> Purchase History
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-user"></i> My Profile
+            </a>
+        </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Live Classes</h1>
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <i class="fas fa-bars"></i> Menu
+            </button>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="live">Live Classes</button>
+            <button class="tab-btn" data-tab="upcoming">Upcoming</button>
+            <button class="tab-btn" data-tab="completed">Completed</button>
+        </div>
+        
+        <!-- Live Classes Tab -->
+        <div class="tab-content active" id="live-tab">
+            <!-- 5:00 PM Live Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">5:00 PM Live Classes</h2>
+                    <div class="section-time">
+                        <i class="far fa-clock"></i>
+                        <span id="current-time-5pm">Starts in: 00:00:00</span>
+                    </div>
+                </div>
+                <div class="courses-grid" id="live-5pm-grid">
+                    <!-- Live classes will be added here dynamically -->
+                </div>
+            </div>
+            
+            <!-- 8:00 PM Live Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">8:00 PM Live Classes</h2>
+                    <div class="section-time">
+                        <i class="far fa-clock"></i>
+                        <span id="current-time-8pm">Starts in: 00:00:00</span>
+                    </div>
+                </div>
+                <div class="courses-grid" id="live-8pm-grid">
+                    <!-- Live classes will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upcoming Classes Tab -->
+        <div class="tab-content" id="upcoming-tab">
+            <!-- 5:00 PM Upcoming Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">5:00 PM Upcoming Classes</h2>
+                    <div class="section-time">
+                        <i class="far fa-clock"></i>
+                        <span>Next class: <span id="next-5pm-time">Today</span></span>
+                    </div>
+                </div>
+                <div class="courses-grid" id="upcoming-5pm-grid">
+                    <!-- Upcoming classes will be added here dynamically -->
+                </div>
+            </div>
+            
+            <!-- 8:00 PM Upcoming Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">8:00 PM Upcoming Classes</h2>
+                    <div class="section-time">
+                        <i class="far fa-clock"></i>
+                        <span>Next class: <span id="next-8pm-time">Today</span></span>
+                    </div>
+                </div>
+                <div class="courses-grid" id="upcoming-8pm-grid">
+                    <!-- Upcoming classes will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Completed Classes Tab -->
+        <div class="tab-content" id="completed-tab">
+            <!-- Empty state for completed classes -->
+            <div class="empty-state" style="grid-column: 1 / -1;">
+                <div class="empty-icon">
+                    <i class="far fa-calendar-check"></i>
+                </div>
+                <h3 class="empty-title">No completed classes yet</h3>
+                <p class="empty-text">Your completed live classes will appear here after they finish</p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Developer Profile -->
+    <div class="dev-profile" id="dev-profile">
+        <img src="https://d3cx6qbbd4cbso.cloudfront.net/540/application/profile/18479419/18479419_1750990429028_image.jpg" alt="Murli Kumar" class="dev-avatar">
+        <div class="dev-info">
+            <span class="dev-name">Web Development</span>
+            <span class="dev-role">by Murli Kumar</span>
+        </div>
+    </div>
+    
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Telegram Popup -->
+    <div class="telegram-popup" id="telegram-popup">
+        <button class="popup-close" id="popup-close">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="popup-header">
+            <div class="telegram-icon">
+                <i class="fab fa-telegram"></i>
+            </div>
+            <h3 class="popup-title">Join Our Telegram Channel</h3>
+        </div>
+        <p class="popup-content">
+            Don't miss any important updates! Join our Telegram channel to get:
+            <br><br>
+            • Instant notifications for live classes<br>
+            • Study materials and resources<br>
+            • Important announcements<br>
+            • Q&A with instructors<br>
+            • Community support
+        </p>
+        <a href="https://t.me/+jFh07h_DzeplZDA1" class="popup-btn" target="_blank">
+            <i class="fab fa-telegram"></i> Join Now
+        </a>
+    </div>
+    
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS animation
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true,
+                offset: 120
+            });
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 10) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+            
+            // Sidebar toggle
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                mainContent.classList.toggle('expanded');
+                
+                // Change icon
+                const icon = sidebarToggle.querySelector('i');
+                if (sidebar.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Tab switching
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Telegram popup
+            setTimeout(function() {
+                document.getElementById('overlay').classList.add('show');
+                document.getElementById('telegram-popup').classList.add('show');
+            }, 3000);
+            
+            // Close popup when close button is clicked
+            document.getElementById('popup-close').addEventListener('click', function() {
+                document.getElementById('overlay').classList.remove('show');
+                document.getElementById('telegram-popup').classList.remove('show');
+            });
+            
+            // Close popup when clicking overlay
+            document.getElementById('overlay').addEventListener('click', function() {
+                this.classList.remove('show');
+                document.getElementById('telegram-popup').classList.remove('show');
+            });
+            
+            // Class management system
+            class ClassManager {
+                constructor() {
+                    this.classes = [];
+                    this.currentDate = new Date();
+                    this.initializeClasses();
+                }
+                
+                initializeClasses() {
+                    // Today's date
+                    const today = new Date();
+                    
+                    // Create one 5:00 PM class (either live or upcoming)
+                    const class5pm = new Date(today);
+                    class5pm.setHours(17, 0, 0, 0); // 5:00 PM
+                    
+                    // Create one 8:00 PM class (either live or upcoming)
+                    const class8pm = new Date(today);
+                    class8pm.setHours(20, 0, 0, 0); // 8:00 PM
+                    
+                    // Add 5:00 PM class
+                    this.classes.push({
+                        id: 'class-5pm-today',
+                        title: 'Triangles L6',
+                        batch: 'AARAMBH 9th BATCH 25-26',
+                        thumbnail: 'https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/23439132213172_Science%20Stream%20%283%29.png',
+                        startTime: class5pm,
+                        duration: 90, // minutes
+                        status: 'upcoming',
+                        recordingUrl: 'https://example.com/recording-5pm-today',
+                        liveUrl: 'https://example.com/live-5pm-today'
+                    });
+                    
+                    // Add 8:00 PM class
+                    this.classes.push({
+                        id: 'class-8pm-today',
+                        title: 'Sanskrit Doubt Solving Class',
+                        batch: 'AARAMBH 9th BATCH 25-26',
+                        thumbnail: 'https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/2480562206738_App%20Thumbnails%20All%20Teachers-5.png',
+                        startTime: class8pm,
+                        duration: 90, // minutes
+                        status: 'upcoming',
+                        recordingUrl: 'https://example.com/recording-8pm-today',
+                        liveUrl: 'https://example.com/live-8pm-today'
+                    });
+                }
+                
+                updateClassStatuses() {
+                    const now = new Date();
+                    
+                    this.classes.forEach(cls => {
+                        const endTime = new Date(cls.startTime.getTime() + cls.duration * 60000);
+                        
+                        if (now >= cls.startTime && now <= endTime) {
+                            cls.status = 'live';
+                        } else if (now > endTime) {
+                            cls.status = 'completed';
+                        } else {
+                            cls.status = 'upcoming';
+                        }
+                    });
+                }
+                
+                renderClasses() {
+                    this.updateClassStatuses();
+                    
+                    // Clear all grids
+                    document.getElementById('live-5pm-grid').innerHTML = '';
+                    document.getElementById('live-8pm-grid').innerHTML = '';
+                    document.getElementById('upcoming-5pm-grid').innerHTML = '';
+                    document.getElementById('upcoming-8pm-grid').innerHTML = '';
+                    
+                    // Sort classes by time
+                    this.classes.sort((a, b) => a.startTime - b.startTime);
+                    
+                    // Filter classes
+                    const live5pmClass = this.classes.find(cls => 
+                        cls.status === 'live' && cls.startTime.getHours() === 17
+                    );
+                    
+                    const live8pmClass = this.classes.find(cls => 
+                        cls.status === 'live' && cls.startTime.getHours() === 20
+                    );
+                    
+                    const upcoming5pmClass = this.classes.find(cls => 
+                        cls.status === 'upcoming' && cls.startTime.getHours() === 17
+                    );
+                    
+                    const upcoming8pmClass = this.classes.find(cls => 
+                        cls.status === 'upcoming' && cls.startTime.getHours() === 20
+                    );
+                    
+                    // Render live 5pm class
+                    if (live5pmClass) {
+                        this.renderClass(live5pmClass, 'live-5pm-grid', true);
+                    } else {
+                        this.renderEmptyState('live-5pm-grid', 'No live classes at 5:00 PM right now');
+                    }
+                    
+                    // Render live 8pm class
+                    if (live8pmClass) {
+                        this.renderClass(live8pmClass, 'live-8pm-grid', true);
+                    } else {
+                        this.renderEmptyState('live-8pm-grid', 'No live classes at 8:00 PM right now');
+                    }
+                    
+                    // Render upcoming 5pm class
+                    if (upcoming5pmClass) {
+                        this.renderClass(upcoming5pmClass, 'upcoming-5pm-grid', false);
+                    } else {
+                        this.renderEmptyState('upcoming-5pm-grid', 'No upcoming classes at 5:00 PM');
+                    }
+                    
+                    // Render upcoming 8pm class
+                    if (upcoming8pmClass) {
+                        this.renderClass(upcoming8pmClass, 'upcoming-8pm-grid', false);
+                    } else {
+                        this.renderEmptyState('upcoming-8pm-grid', 'No upcoming classes at 8:00 PM');
+                    }
+                    
+                    // Update next class times
+                    this.updateNextClassTimes();
+                    
+                    // Re-initialize AOS for new elements
+                    AOS.refresh();
+                }
+                
+                renderClass(cls, containerId, isLive) {
+                    const container = document.getElementById(containerId);
+                    const now = new Date();
+                    const endTime = new Date(cls.startTime.getTime() + cls.duration * 60000);
+                    
+                    // Format date
+                    const options = { weekday: 'short', month: 'short', day: 'numeric' };
+                    const dateStr = cls.startTime.toLocaleDateString('en-US', options);
+                    
+                    const card = document.createElement('div');
+                    card.className = 'course-card';
+                    card.setAttribute('data-aos', 'fade-up');
+                    
+                    if (isLive) {
+                        card.innerHTML = `
+                            <div class="live-badge">
+                                <span></span> Live Now
+                            </div>
+                            <div class="course-thumbnail">
+                                <img src="${cls.thumbnail}" alt="${cls.title}">
+                            </div>
+                            <div class="course-body">
+                                <h3 class="course-title">${cls.title}</h3>
+                                <p class="course-batch">${cls.batch}</p>
+                                
+                                <div class="course-meta">
+                                    <div class="meta-item">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <span>Started at:</span>
+                                        <span class="meta-value">${dateStr} | ${this.formatTime(cls.startTime)}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="far fa-clock"></i>
+                                        <span>Ends at:</span>
+                                        <span class="meta-value">${this.formatTime(endTime)}</span>
+                                    </div>
+                                </div>
+                                
+                                <hr class="course-divider">
+                                
+                                <a href="${cls.liveUrl}" class="course-action" target="_blank">
+                                    <i class="fas fa-play-circle"></i> Join Now
+                                </a>
+                            </div>
+                        `;
+                    } else {
+                        card.innerHTML = `
+                            <div class="course-thumbnail">
+                                <img src="${cls.thumbnail}" alt="${cls.title}">
+                            </div>
+                            <div class="course-body">
+                                <h3 class="course-title">${cls.title}</h3>
+                                <p class="course-batch">${cls.batch}</p>
+                                
+                                <div class="course-meta">
+                                    <div class="meta-item">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <span>Starts at:</span>
+                                        <span class="meta-value">${dateStr} | ${this.formatTime(cls.startTime)}</span>
+                                    </div>
+                                </div>
+                                
+                                <hr class="course-divider">
+                                
+                                <button class="course-action watch-later-btn">
+                                    <i class="fas fa-bell"></i> Starts in: <span class="timer" data-start="${cls.startTime.getTime()}">00:00:00</span>
+                                </button>
+                            </div>
+                        `;
+                    }
+                    
+                    container.appendChild(card);
+                }
+                
+                renderEmptyState(containerId, message) {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1 / -1;">
+                            <div class="empty-icon">
+                                <i class="far fa-calendar-check"></i>
+                            </div>
+                            <h3 class="empty-title">${message}</h3>
+                        </div>
+                    `;
+                }
+                
+                formatTime(date) {
+                    let hours = date.getHours();
+                    const minutes = date.getMinutes().toString().padStart(2, '0');
+                    const ampm = hours >= 12 ? 'PM' : 'AM';
+                    hours = hours % 12;
+                    hours = hours ? hours : 12; // the hour '0' should be '12'
+                    return `${hours}:${minutes} ${ampm}`;
+                }
+                
+                updateNextClassTimes() {
+                    const now = new Date();
+                    
+                    // Find next 5pm class
+                    const next5pmClass = this.classes.find(cls => 
+                        cls.startTime.getHours() === 17 && cls.startTime > now
+                    );
+                    
+                    // Find next 8pm class
+                    const next8pmClass = this.classes.find(cls => 
+                        cls.startTime.getHours() === 20 && cls.startTime > now
+                    );
+                    
+                    // Update display
+                    if (next5pmClass) {
+                        const diff = next5pmClass.startTime - now;
+                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        
+                        let displayText = '';
+                        if (days === 0) {
+                            displayText = 'Today';
+                        } else if (days === 1) {
+                            displayText = 'Tomorrow';
+                        } else {
+                            displayText = next5pmClass.startTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                        }
+                        
+                        document.getElementById('next-5pm-time').textContent = displayText;
+                    }
+                    
+                    if (next8pmClass) {
+                        const diff = next8pmClass.startTime - now;
+                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        
+                        let displayText = '';
+                        if (days === 0) {
+                            displayText = 'Today';
+                        } else if (days === 1) {
+                            displayText = 'Tomorrow';
+                        } else {
+                            displayText = next8pmClass.startTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                        }
+                        
+                        document.getElementById('next-8pm-time').textContent = displayText;
+                    }
+                }
+                
+                updateTimers() {
+                    const now = new Date();
+                    
+                    // Update upcoming class timers
+                    const timers = document.querySelectorAll('.timer');
+                    timers.forEach(timer => {
+                        const startTime = parseInt(timer.getAttribute('data-start'));
+                        const diff = startTime - now.getTime();
+                        
+                        if (diff <= 0) {
+                            timer.textContent = '00:00:00';
+                            // In a real app, you would trigger a refresh here
+                            return;
+                        }
+                        
+                        const seconds = Math.floor(diff / 1000);
+                        const minutes = Math.floor(seconds / 60);
+                        const hours = Math.floor(minutes / 60);
+                        
+                        timer.textContent = `${hours.toString().padStart(2, '0')}:${(minutes % 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
+                    });
+                    
+                    // Update section headers
+                    const next5pmClass = this.classes.find(cls => 
+                        cls.startTime.getHours() === 17 && cls.startTime > now
+                    );
+                    
+                    const next8pmClass = this.classes.find(cls => 
+                        cls.startTime.getHours() === 20 && cls.startTime > now
+                    );
+                    
+                    if (next5pmClass) {
+                        const diff = next5pmClass.startTime - now;
+                        const seconds = Math.floor(diff / 1000);
+                        const minutes = Math.floor(seconds / 60);
+                        const hours = Math.floor(minutes / 60);
+                        
+                        document.getElementById('current-time-5pm').textContent = 
+                            `Starts in: ${hours.toString().padStart(2, '0')}:${(minutes % 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
+                    } else {
+                        document.getElementById('current-time-5pm').textContent = 'No upcoming class';
+                    }
+                    
+                    if (next8pmClass) {
+                        const diff = next8pmClass.startTime - now;
+                        const seconds = Math.floor(diff / 1000);
+                        const minutes = Math.floor(seconds / 60);
+                        const hours = Math.floor(minutes / 60);
+                        
+                        document.getElementById('current-time-8pm').textContent = 
+                            `Starts in: ${hours.toString().padStart(2, '0')}:${(minutes % 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
+                    } else {
+                        document.getElementById('current-time-8pm').textContent = 'No upcoming class';
+                    }
+                }
+            }
+            
+            // Initialize class manager
+            const classManager = new ClassManager();
+            classManager.renderClasses();
+            
+            // Update timers every second
+            setInterval(() => {
+                classManager.updateTimers();
+                
+                // Check if we need to refresh the class list (e.g., when a class starts or ends)
+                const now = new Date();
+                const needsRefresh = classManager.classes.some(cls => {
+                    const endTime = new Date(cls.startTime.getTime() + cls.duration * 60000);
+                    return Math.abs(now - cls.startTime) < 1000 || Math.abs(now - endTime) < 1000;
+                });
+                
+                if (needsRefresh) {
+                    classManager.renderClasses();
+                }
+            }, 1000);
+            
+            // Watch now/recording links
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.course-action[href]')) {
+                    const link = e.target.closest('.course-action[href]');
+                    // In a real app, you might want to track this event
+                    console.log(`User clicked to watch: ${link.getAttribute('href')}`);
+                    // The link will naturally navigate to the URL
+                }
+            });
+        });
+    </script>
+</body>
+</html>
